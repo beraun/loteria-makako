@@ -1,0 +1,14 @@
+[
+  { "id": "el-gallo", "name": "El gallo", "img": "cards/set01/el-gallo.png", "alt": "Un gallo erguido con plumaje rojo y dorado", "canto": "¡Quiquiriquí! levántense los que van a ganar." },
+  { "id": "el-diablo", "name": "El diablo", "img": "cards/set01/el-diablo.png", "alt": "Figura roja con tridente y cola puntiaguda", "canto": "Pórtate bien que te lleva el tren." },
+  { "id": "la-dama", "name": "La dama", "img": "cards/set01/la-dama.png", "alt": "Dama elegante con vestido y abanico", "canto": "Con gracia fina y paso de reina." },
+  { "id": "el-catrin", "name": "El catrín", "img": "cards/set01/el-catrin.png", "alt": "Caballero de traje y sombrero", "canto": "Con bastón y buen porte: el catrín." },
+  { "id": "el-paraguas", "name": "El paraguas", "img": "cards/set01/el-paraguas.png", "alt": "Paraguas abierto azul", "canto": "Que llueva, que llueva… pero yo cubierto." },
+  { "id": "la-sirena", "name": "La sirena", "img": "cards/set01/la-sirena.png", "alt": "Sirena sobre olas con cabello largo", "canto": "Cántale al mar que te quiere escuchar." },
+  { "id": "la-escalera", "name": "La escalera", "img": "cards/set01/la-escalera.png", "alt": "Escalera de madera apoyada", "canto": "Sube peldaño a peldaño, que ya casi ganas." },
+  { "id": "la-botella", "name": "La botella", "img": "cards/set01/la-botella.png", "alt": "Botella de vidrio transparente", "canto": "Brinda que la suerte se acerca." },
+  { "id": "el-barril", "name": "El barril", "img": "cards/set01/el-barril.png", "alt": "Barril de madera con aros metálicos", "canto": "Rodando, rodando hasta tu cartón." },
+  { "id": "el-arbol", "name": "El árbol", "img": "cards/set01/el-arbol.png", "alt": "Árbol frondoso con raíces visibles", "canto": "Con sombra buena y fruto mejor." },
+  { "id": "el-melon", "name": "El melón", "img": "cards/set01/el-melon.png", "alt": "Melón partido mostrando pulpa", "canto": "Dulce que te quiero dulce." },
+  { "id": "el-valiente", "name": "El valiente", "img": "cards/set01/el-valiente.png", "alt": "Personaje con pecho al frente y puños cerrados", "canto": "Sin miedo al éxito, compa." }
+]

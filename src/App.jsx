@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { HashRouter, Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
 
 // ----------------------------- Utils: seed, RNG, shuffle -----------------------------
@@ -39,17 +39,35 @@ function shuffleWithSeed(arr, seed) {
   return a;
 }
 
-// ----------------------------- Demo Deck (set01) -----------------------------
-// En tu proyecto final esto leerá: public/decks/set01.deck.json
-const DECK_SET01 = [
-  "El gallo", "El diablo", "La dama", "El catrín", "El paraguas", "La sirena", "La escalera", "La botella",
-  "El barril", "El árbol", "El melón", "El valiente", "El gorrito", "La muerte", "La pera", "La bandera",
-  "El bandolón", "El violoncello", "La garza", "El pájaro", "La mano", "La bota", "La luna", "El cotorro",
-  "El borracho", "El negrito", "El corazón", "La sandía", "El tambor", "El camarón", "Las jaras", "El músico",
-  "La araña", "El soldado", "La estrella", "El cazo", "El mundo", "El apache", "El nopal", "El alacrán",
-  "La rosa", "La calavera", "La campana", "El cantarito", "El venado", "El sol", "La corona", "La chalupa",
-  "El pino", "El pescado", "La palma", "La maceta", "El arpa", "La rana"
+// ----------------------------- Slug + Paths -----------------------------
+function slug(s){
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/(^-|-$)/g,"");
+}
+const BASE = (import.meta.env.BASE_URL || "/");
+const DECK_URL = `${BASE}decks/set01.deck.json`;
+
+// Fallback de nombres si no existe el JSON
+const DEFAULT_NAMES = [
+  "El gallo","El diablo","La dama","El catrín","El paraguas","La sirena","La escalera","La botella",
+  "El barril","El árbol","El melón","El valiente","El gorrito","La muerte","La pera","La bandera",
+  "El bandolón","El violoncello","La garza","El pájaro","La mano","La bota","La luna","El cotorro",
+  "El borracho","El negrito","El corazón","La sandía","El tambor","El camarón","Las jaras","El músico",
+  "La araña","El soldado","La estrella","El cazo","El mundo","El apache","El nopal","El alacrán",
+  "La rosa","La calavera","La campana","El cantarito","El venado","El sol","La corona","La chalupa",
+  "El pino","El pescado","La palma","La maceta","El arpa","La rana"
 ];
+function namesToDeck(names){
+  return names.map(n => ({ id: slug(n), name: n, img: `cards/set01/${slug(n)}.png`, alt: n, canto: "" }));
+}
+function cardSrc(card){
+  if (!card) return "";
+  if (card.img) return `${BASE}${card.img}`;
+  return `${BASE}cards/set01/${slug(card.name)}.png`;
+}
 
 // ----------------------------- LocalStorage helpers -----------------------------
 function lsGet(key, fallback) {
@@ -57,6 +75,20 @@ function lsGet(key, fallback) {
 }
 function lsSet(key, value) {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+}
+
+// ----------------------------- Shared: Deck loader -----------------------------
+function useDeck(){
+  const [deck, setDeck] = useState([]);
+  useEffect(() => {
+    let mounted = true;
+    fetch(DECK_URL)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => { if (mounted) setDeck(Array.isArray(data) ? data : namesToDeck(DEFAULT_NAMES)); })
+      .catch(() => { if (mounted) setDeck(namesToDeck(DEFAULT_NAMES)); });
+    return () => { mounted = false; };
+  }, []);
+  return deck;
 }
 
 // ----------------------------- Layout -----------------------------
@@ -82,35 +114,28 @@ function Shell({ children }) {
 
 // ----------------------------- Caller -----------------------------
 function Caller() {
+  const deck = useDeck();
   const [seed, setSeed] = useState(() => lsGet("lm:seed", "20250928"));
   const [index, setIndex] = useState(() => lsGet("lm:index", 0));
-  const [shuffled, setShuffled] = useState(() => shuffleWithSeed(DECK_SET01, seed));
   const [history, setHistory] = useState(() => lsGet("lm:history", []));
 
+  // Releer progreso por semilla
   useEffect(() => {
-    const s = shuffleWithSeed(DECK_SET01, seed);
-    setShuffled(s);
     setIndex(lsGet(`lm:index:${seed}`, 0));
     setHistory(lsGet(`lm:history:${seed}`, []));
     lsSet("lm:seed", seed);
   }, [seed]);
 
-  useEffect(() => {
-    lsSet("lm:index", index);
-    lsSet(`lm:index:${seed}`, index);
-  }, [index, seed]);
+  const shuffled = useMemo(() => deck.length ? shuffleWithSeed(deck, seed) : [], [deck, seed]);
+  const currentCard = shuffled[index] || null;
 
-  useEffect(() => {
-    lsSet("lm:history", history);
-    lsSet(`lm:history:${seed}`, history);
-  }, [history, seed]);
-
-  const current = shuffled[index] || "";
+  useEffect(() => { lsSet("lm:index", index); lsSet(`lm:index:${seed}`, index); }, [index, seed]);
+  useEffect(() => { lsSet("lm:history", history); lsSet(`lm:history:${seed}`, history); }, [history, seed]);
 
   const next = () => {
-    if (index >= shuffled.length) return;
+    if (!deck.length || index >= shuffled.length) return;
     const card = shuffled[index];
-    setHistory((h) => [...h, card]);
+    setHistory((h) => [...h, card.name]);
     setIndex((i) => Math.min(i + 1, shuffled.length));
   };
   const prev = () => setIndex((i) => Math.max(0, i - 1));
@@ -145,10 +170,21 @@ function Caller() {
           </div>
 
           <div className="aspect-video rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 flex items-center justify-center text-center p-6 shadow-lg">
-            {index < shuffled.length ? (
+            {!deck.length ? (
+              <div className="text-xl text-slate-400">Cargando baraja…</div>
+            ) : index < shuffled.length ? (
               <div>
-                <div className="text-6xl font-bold mb-2">{current}</div>
-                <div className="text-slate-400">Carta {index + 1} / {shuffled.length}</div>
+                <img
+                  src={cardSrc(currentCard)}
+                  alt={currentCard?.alt || currentCard?.name}
+                  className="mx-auto mb-3 max-h-64 object-contain drop-shadow"
+                  onError={(e)=>{ e.currentTarget.style.display="none"; }}
+                />
+                <div className="text-6xl font-bold mb-2">{currentCard?.name}</div>
+                {currentCard?.canto && (
+                  <div className="text-slate-300 mt-2 italic text-lg">{currentCard.canto}</div>
+                )}
+                <div className="text-slate-400 mt-2">Carta {index + 1} / {shuffled.length}</div>
               </div>
             ) : (
               <div className="text-4xl font-bold">¡Lotería terminada! 🎉</div>
@@ -184,15 +220,15 @@ function Caller() {
 // ----------------------------- Player -----------------------------
 function useQuery() {
   const { search, hash } = useLocation();
-  // soporta tanto #/player?code=...&seed=... como #/player&code=...&seed=...
   const qs = search || (hash.includes("?") ? hash.slice(hash.indexOf("?")) : "");
   return useMemo(() => new URLSearchParams(qs), [qs]);
 }
 function Player() {
+  const deck = useDeck();
   const q = useQuery();
   const code = q.get("code") || "guest";
   const seed = q.get("seed") || "20250928";
-  const shuffled = useMemo(() => shuffleWithSeed(DECK_SET01, seed + ":" + code), [seed, code]);
+  const shuffled = useMemo(() => deck.length ? shuffleWithSeed(deck, seed + ":" + code) : [], [deck, seed, code]);
   const grid = shuffled.slice(0, 16);
   const key = `lm:player:${code}:${seed}`;
   const [beans, setBeans] = useState(() => lsGet(key, {}));
@@ -208,27 +244,39 @@ function Player() {
         <div className="text-sm text-slate-400">Seed: <span className="text-slate-200 font-mono">{seed}</span></div>
         <button onClick={()=>setBeans({})} className="ml-auto px-3 py-1 rounded bg-slate-800 border border-slate-700">Limpiar frijolitos</button>
       </div>
-      <div className="grid grid-cols-4 gap-3">
-        {grid.map((name, i) => (
-          <button key={i} onClick={()=>toggle(i)} className={`relative aspect-square rounded-2xl border border-slate-700 p-2 text-center flex items-center justify-center text-sm font-medium transition ${beans[i] ? "bg-emerald-700/40 ring-2 ring-emerald-400" : "bg-slate-900 hover:bg-slate-800"}`}>
-            <span className="px-2">{name}</span>
-            {beans[i] && <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-emerald-400/90"></span>}
-          </button>
-        ))}
-      </div>
+      {!deck.length ? (
+        <div className="p-4 text-slate-400">Cargando baraja…</div>
+      ) : (
+        <div className="grid grid-cols-4 gap-3">
+          {grid.map((card, i) => (
+            <button key={i} onClick={()=>toggle(i)} className={`relative aspect-square rounded-2xl border border-slate-700 p-2 text-center flex items-center justify-center text-sm font-medium transition ${beans[i] ? "bg-emerald-700/40 ring-2 ring-emerald-400" : "bg-slate-900 hover:bg-slate-800"}`}>
+              <img
+                src={cardSrc(card)}
+                alt={card.alt || card.name}
+                className="absolute inset-0 w-full h-full object-contain opacity-90 pointer-events-none"
+                onError={(e)=>{ e.currentTarget.style.display="none"; }}
+              />
+              <span className="relative z-10 px-2 drop-shadow">{card.name}</span>
+              {beans[i] && <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-emerald-400/90"></span>}
+            </button>
+          ))}
+        </div>
+      )}
     </Shell>
   );
 }
 
 // ----------------------------- Admin -----------------------------
 function downloadCSV(filename, rows) {
-  const processRow = (row) => row.map((v) => `"${String(v).replaceAll('"', '""')}"`).join(',');
-  const csv = ["name,code,link"].concat(rows.map(processRow)).join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const esc = (s) => `"${String(s).replaceAll('"', '""')}"`;
+  const header = "name,code,link";
+  const lines = rows.map((r) => r.map(esc).join(","));
+  const csv = [header, ...lines].join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url; a.download = filename; a.click();
-  setTimeout(()=>URL.revokeObjectURL(url), 1500);
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
 function Admin() {
   const [seed, setSeed] = useState(() => lsGet("lm:admin:seed", "20250928"));
@@ -244,7 +292,7 @@ function Admin() {
   });
 
   const copyAll = async () => {
-    const txt = rows.map(r => r.join("\t")).join("\n");
+    const txt = rows.map((r) => r.join("\t")).join("\n");
     try { await navigator.clipboard.writeText(txt); alert("Copiado ✔"); } catch { alert("No se pudo copiar"); }
   };
 
