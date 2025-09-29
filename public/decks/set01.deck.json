@@ -2,147 +2,147 @@
   {
     "id": "01",
     "name": "El Gallo",
-    "img": "/cards/set01/01_el_gallo.png",
+    "img": "/cards/set01/el-gallo.png",
     "alt": "Makako verde disfrazado de gallo",
     "canto": "El que le cantó a San Pedro"
   },
   {
     "id": "02",
     "name": "El Diablo",
-    "img": "/cards/set01/02_el_diablo.png",
+    "img": "/cards/set01/el-diablo.png",
     "alt": "Makako verde disfrazado de diablo con tridente",
     "canto": "Pórtate bien cuatito"
   },
   {
     "id": "03",
     "name": "La Dama",
-    "img": "/cards/set01/03_la_dama.png",
+    "img": "/cards/set01/la-dama.png",
     "alt": "Makako verde vestido de dama elegante",
     "canto": "Puliendo el paso"
   },
   {
     "id": "04",
     "name": "El Catrín",
-    "img": "/cards/set01/04_el_catrin.png",
+    "img": "/cards/set01/el-catrin.png",
     "alt": "Makako verde vestido con traje elegante",
     "canto": "Don Ferruco en la alameda"
   },
   {
     "id": "05",
     "name": "El Paraguas",
-    "img": "/cards/set01/05_el_paraguas.png",
+    "img": "/cards/set01/el-paraguas.png",
     "alt": "Makako verde sosteniendo un paraguas",
     "canto": "Para el sol y para el agua"
   },
   {
     "id": "06",
     "name": "La Sirena",
-    "img": "/cards/set01/06_la_sirena.png",
+    "img": "/cards/set01/la-sirena.png",
     "alt": "Makako verde con cola de sirena",
     "canto": "Con los cantos de sirena"
   },
   {
     "id": "07",
     "name": "La Escalera",
-    "img": "/cards/set01/07_la_escalera.png",
+    "img": "/cards/set01/la-escalera.png",
     "alt": "Makako verde apoyado en una escalera",
     "canto": "Súbeme paso a pasito"
   },
   {
     "id": "08",
     "name": "La Botella",
-    "img": "/cards/set01/08_la_botella.png",
+    "img": "/cards/set01/la-botella.png",
     "alt": "Makako verde con una botella en la mano",
     "canto": "La herramienta del borracho"
   },
   {
     "id": "09",
     "name": "El Barril",
-    "img": "/cards/set01/09_el_barril.png",
+    "img": "/cards/set01/el-barril.png",
     "alt": "Makako verde saliendo de un barril",
     "canto": "El que brincó la tapia"
   },
   {
     "id": "10",
     "name": "El Árbol",
-    "img": "/cards/set01/10_el_arbol.png",
+    "img": "/cards/set01/el-arbol.png",
     "alt": "Makako verde junto a un árbol grande",
     "canto": "El que da sombra a la casa"
   },
   {
     "id": "11",
     "name": "El Melón",
-    "img": "/cards/set01/11_el_melon.png",
+    "img": "/cards/set01/el-melon.png",
     "alt": "Makako verde sosteniendo un melón",
     "canto": "Me lo das o me lo quitas"
   },
   {
     "id": "12",
     "name": "El Valiente",
-    "img": "/cards/set01/12_el_valiente.png",
+    "img": "/cards/set01/el-valiente.png",
     "alt": "Makako verde con espada en mano",
     "canto": "Por qué le corres cobarde"
   },
   {
     "id": "13",
     "name": "El Gorrito",
-    "img": "/cards/set01/13_el_gorrito.png",
+    "img": "/cards/set01/el-gorrito.png",
     "alt": "Makako verde con un gorrito puntiagudo",
     "canto": "Póntelo bien puesto"
   },
   {
     "id": "14",
     "name": "La Muerte",
-    "img": "/cards/set01/14_la_muerte.png",
+    "img": "/cards/set01/la-muerte.png",
     "alt": "Makako verde disfrazado de calavera",
     "canto": "La que le sigue a la vida"
   },
   {
     "id": "15",
     "name": "La Pera",
-    "img": "/cards/set01/15_la_pera.png",
+    "img": "/cards/set01/la-pera.png",
     "alt": "Makako verde sosteniendo una pera",
     "canto": "El que espera desespera"
   },
   {
     "id": "16",
     "name": "La Bandera",
-    "img": "/cards/set01/16_la_bandera.png",
+    "img": "/cards/set01/la-bandera.png",
     "alt": "Makako verde con una bandera ondeando",
     "canto": "Verde, blanco y colorado"
   },
   {
     "id": "17",
     "name": "El Bandolón",
-    "img": "/cards/set01/17_el_bandolon.png",
+    "img": "/cards/set01/el-bandolon.png",
     "alt": "Makako verde tocando un bandolón",
     "canto": "Suena fuerte este instrumento"
   },
   {
     "id": "18",
     "name": "El Violoncello",
-    "img": "/cards/set01/18_el_violoncello.png",
+    "img": "/cards/set01/el-violoncello.png",
     "alt": "Makako verde tocando un violoncello",
     "canto": "El que suena más bonito"
   },
   {
     "id": "19",
     "name": "La Garza",
-    "img": "/cards/set01/19_la_garza.png",
+    "img": "/cards/set01/la-garza.png",
     "alt": "Makako verde con alas de garza",
     "canto": "Al otro lado del río"
   },
   {
     "id": "20",
     "name": "El Pájaro",
-    "img": "/cards/set01/20_el_pajaro.png",
+    "img": "/cards/set01/el-pajaro.png",
     "alt": "Makako verde con alas de pájaro",
     "canto": "Me cogió el pajarito"
   },
   {
     "id": "21",
     "name": "La Mano",
-    "img": "/cards/set01/21_la_mano.png",
+    "img": "/cards/set01/la-mano.png",
     "alt": "Makako verde mostrando una mano abierta",
     "canto": "La mano de un criminal"
   }

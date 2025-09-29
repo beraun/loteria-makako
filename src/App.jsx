@@ -107,7 +107,7 @@ function Shell({ children }) {
         </div>
       </header>
       <main className="max-w-6xl mx-auto p-4">{children}</main>
-      <footer className="max-w-6xl mx-auto p-4 text-xs text-slate-400">Seeded • Persistente • SPA</footer>
+      <footer className="max-w-6xl mx-auto p-4 text-xs text-slate-400">Creado por • Reyko • beraun@gmail.com</footer>
     </div>
   );
 }
